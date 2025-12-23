@@ -1,0 +1,13 @@
+nilearn
+numpy
+matplotlib
+tqdm
+torch
+torch-geometric
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline-conv
+networkx
+pandas
+scikit-learn
