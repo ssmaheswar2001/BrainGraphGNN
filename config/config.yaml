@@ -1,0 +1,98 @@
+# Configuration file for BrainGNN project
+
+# Data settings
+data:
+  dataset_path: "dataset"
+  corr_matrices_dir: "dataset/corr_matrices"
+  pcorr_matrices_dir: "dataset/pcorr_matrices"
+  tan_matrices_dir: "dataset/tan_matrices"
+  time_series_dir: "dataset/time_series"
+  labels_file: "dataset/labels.csv"
+  avg_pcorr_file: "dataset/avg_pcorr.csv"
+  
+  # Atlas settings
+  atlas: "msdl"  # MSDL atlas with 39 ROIs
+  standardize: true
+  
+  # Graph construction
+  threshold_percentile: 85
+  min_edges: 50
+  normalize_features: true
+
+# Model settings
+model:
+  architectures:
+    GCN:
+      hidden_channels: 128
+      num_layers: 4
+      dropout: 0.3
+      use_residual: true
+      
+    GAT:
+      hidden_channels: 128
+      num_layers: 4
+      heads: 4
+      dropout: 0.3
+      
+    GIN:
+      hidden_channels: 128
+      num_layers: 4
+      dropout: 0.3
+      
+    GraphSAGE:
+      hidden_channels: 128
+      num_layers: 4
+      dropout: 0.3
+      aggr: "mean"
+      
+    Hybrid:
+      hidden_channels: 128
+      dropout: 0.3
+      heads: 4
+
+# Training settings
+training:
+  batch_size: 32
+  epochs: 100
+  learning_rates: [0.0001, 0.0005, 0.001]
+  weight_decay: 0.0005
+  patience: 20
+  
+  # Loss function
+  loss:
+    type: "focal"
+    alpha: 0.25
+    gamma: 2.0
+  
+  # Cross-validation
+  k_folds: 5
+  random_seed: 42
+  
+  # Scheduler
+  scheduler:
+    type: "ReduceLROnPlateau"
+    mode: "max"
+    factor: 0.5
+    patience: 10
+    min_lr: 0.000001
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - auc
+
+# Paths
+paths:
+  models_dir: "models"
+  results_dir: "results"
+  figures_dir: "figures"
+  logs_dir: "logs"
+
+# Device settings
+device:
+  use_cuda: true  # Set to false to force CPU usage
+  cuda_device: 0  # GPU device ID
